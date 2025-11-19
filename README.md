@@ -1,7 +1,13 @@
 # CausalEarthNet
 Learning the set-wise causal structure of the Earth system using hypergraphs that outperforms pairwise models in identifying climate tipping points and enabling transportable counterfactual forecasts
 
-**Step 1: Data Acquisition** <br>
+**Step 1: Prerequisities and Required libraries**
+Before running the data acquisition step, you must set up the necessary environment and external API access. All requirements are listed in requirements.txt file <br> 
+``` 
+pip install -r requirements.txt
+```
+
+**Step 2: Data Acquisition** <br>
 To access the data from Climate Data Store(CDS), follow the steps below: 
 
 1. Setup the CDS API key <br>
