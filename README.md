@@ -88,9 +88,9 @@ https://www.aoml.noaa.gov/phod/docs/lopez_kirtman_climate_dynamics_2018.pdf <br>
 B. Aggregation Step <br>
 This step let us summarize big climate datasets into interpretable signals for analysis, like climate indices or teleconnections proxies. 
 
-*Vertical Selection*: It means picking a certain “height” in the atmosphere. (or a specific pressure level, eg. 1000hpa or 500 hpa). Many climate variables like (temperature, wind etc) and teleconnection patterns are best captured/represented at certain heights. For example, 1000 hPa for near-surface conditions, 500 hPa for large-scale waves, and 850 hPa for humidity-related data. Here, we select the data at the height (pressure level) of interest
-Example: 
-``` data = data.sel(pressure_level = 500, method='nearest') ```
+*Vertical Selection*: It means picking a certain “height” in the atmosphere. (or a specific pressure level, eg. 1000hpa or 500 hpa). Many climate variables like (temperature, wind etc) and teleconnection patterns are best captured/represented at certain heights. For example, 1000 hPa for near-surface conditions, 500 hPa for large-scale waves, and 850 hPa for humidity-related data. Here, we select the data at the height (pressure level) of interest. <br>
+Example: <br>
+``` data = data.sel(pressure_level = 500, method='nearest') ``` <br>
 This isolates the signal at the layer most relevant to the physical process. This is not needed for surface-only fields (eg. precipitation) 
 
 *Spatial Aggregation*: It means averaging across a selected region of latitude and longitude. We need spatial aggregation whenever we want a regional indicator (eg. average rainfall across all East Africa) rather than gridpoint data. 
