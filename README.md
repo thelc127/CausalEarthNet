@@ -56,7 +56,8 @@ This stage generates the essential input file, ```regional_timeseries_final.csv`
 ***1.1.Download raw ERA5 data***
 The script below downloads 20 years (2000-2019) of monthly mean ERA5 data for the variables and pressure levels needed for our regional proxies.
 ```
-python data/download_era5.py <br> # Downloads 'era5_surface_monthly.nc' and 'era5_pressure_monthly.nc' 
+python data/download_era5.py 
+# Downloads 'era5_surface_monthly.nc' and 'era5_pressure_monthly.nc' 
 ```
 
 
