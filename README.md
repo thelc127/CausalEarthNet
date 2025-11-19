@@ -102,6 +102,18 @@ This step let us summarize big climate datasets into interpretable signals for a
 
 All resulting univariate time-series data are concatenated into a single pandas DataFrame, indexed by time, and saved as, ```regional_timeseries_final.csv```, which is then ready for the next step. 
 
+*3.3 Feature Engineering* <br>
+This step transform the aggregated climate time series data ```(regional_timeseries_final.csv)``` into the standardized formats required for your causal inference and predictive modeling steps. <br>
+
+3.3.1 Anomaly Detection: <br>
+The function ```load_clean_data()``` produces a clean, stationary time series of anamoloies by removing the strong seasonal change. It reads the input ```regional_timeseries_final.csv``` file and then calculates the monthly climatology (the average value for each month across all years) and subtracts it from the corresponding observations. The purpose is to remove the seasonal cycle, ensuring the data relects unpredictable anomalies, and isolates non-seasonal physical teleconnections. 
+
+3.3.2. Handling Missing Values: <br>
+The original csv files has a lot of missing values. This step uses forward-fill ```ffill```followed by backward fill ```bfill```, and then drops any remaining NaN rows. It ensures the resulting time series is complete and continuous for proper time series modeling and analysis. 
+
+3.3.3 Conversion to tigramite dataframe: <br> 
+The final cleaned dataframe ```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis. 
+
 **Step 4:Causal Analysis and Comparison** <br> 
 This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive powe (R^2) <br>
 
