@@ -6,7 +6,8 @@ To access the data from Climate Data Store(CDS), follow the steps below:
 
 1. Setup the CDS API key
    Create or register an account at https://cds.climate.copernicus.eu
-2. Install the CDS API
+2. Install the CDS API 
+
 The CDS API client is a Python based library. It provides support for Python 3.
 
    ```
