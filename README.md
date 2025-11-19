@@ -17,6 +17,8 @@ CausalEarthNet
 │   ├── hypergraph_discovery.py
 │   └── baseline.py
 └── main.py
+└── requirements.txt
+
 ```
 ## Setup and Dependencies 
 **Step 1: Prerequisities and Required libraries** <br>
