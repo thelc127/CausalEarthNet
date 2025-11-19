@@ -2,7 +2,7 @@
 Learning the set-wise causal structure of the Earth system using hypergraphs that outperforms pairwise models in identifying climate tipping points and enabling transportable counterfactual forecasts
 
 ## Code Structure
-<pre> ```text CausalEarthNet ├── data │ ├── download_era5.py │ ├── processor.py │ ├── aggregate.py │ └── era5_pressure.nc ├── src │ ├── config.py │ ├── hypergraph_discovery.py │ └── baseline.py └── main.py ``` </pre>
+<pre> ```text CausalEarthNet ├── data │ ├── download_era5.py │ ├── processor.py │ ├── aggregate.py │ └── era5_pressure.nc ├── src │ ├── config.py │ ├── hypergraph_discovery.py │ └── baseline.py └── main.py``` </pre>
 
 
 ## Setup and Dependencies 
