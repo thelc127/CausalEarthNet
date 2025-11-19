@@ -107,14 +107,18 @@ https://www.aoml.noaa.gov/phod/docs/lopez_kirtman_climate_dynamics_2018.pdf <br>
 3.2.2. Aggregation Step <br>
 This step let us summarize big climate datasets into interpretable signals for analysis, like climate indices or teleconnections proxies. 
 
-   *A. Vertical Selection*: It means picking a certain “height” in the atmosphere. (or a specific pressure level, eg. 1000hpa or 500 hpa). Many climate variables like    (temperature, wind etc) and teleconnection patterns are best captured/represented at certain heights. For example, 1000 hPa for near-surface conditions, 500 hPa for    large-scale waves, and 850 hPa for humidity-related data. Here, we select the data at the height (pressure level) of interest. <br>
+   *A. Vertical Selection*: <br> 
+   
+   It means picking a certain “height” in the atmosphere. (or a specific pressure level, eg. 1000hpa or 500 hpa). Many climate variables like    (temperature, wind etc) and teleconnection patterns are best captured/represented at certain heights. For example, 1000 hPa for near-surface conditions, 500 hPa for    large-scale waves, and 850 hPa for humidity-related data. Here, we select the data at the height (pressure level) of interest. <br>
    
    Example: <br>
    ``` data = data.sel(pressure_level = 500, method='nearest') ``` <br>
    
    This isolates the signal at the layer most relevant to the physical process. This is not needed for surface-only fields (eg. precipitation) 
    
-   *B. Spatial Aggregation*: It means averaging across a selected region of latitude and longitude. We need spatial aggregation whenever we want a regional indicator      (eg. average rainfall across all East Africa) rather than gridpoint data. 
+   *B. Spatial Aggregation*:<br>
+   
+   It means averaging across a selected region of latitude and longitude. We need spatial aggregation whenever we want a regional indicator      (eg. average rainfall across all East Africa) rather than gridpoint data. 
    
    The code calculates the mean value across all latitude and longitude points within the defined box. 
    ```(.mean(dim = [“latitude”, “longitude”]))```
@@ -122,22 +126,26 @@ This step let us summarize big climate datasets into interpretable signals for a
 All resulting univariate time-series data are concatenated into a single pandas DataFrame, indexed by time, and saved as, ```regional_timeseries_final.csv```, which is then ready for the next step. 
 
 *3.3 Feature Engineering* <br>
+
 This step transform the aggregated climate time series data ```(regional_timeseries_final.csv)``` into the standardized formats required for your causal inference and predictive modeling steps. <br> 
 
 3.3.1 Anomaly Detection: <br>
+
 The function ```load_clean_data()``` produces a clean, stationary time series of anamoloies by removing the strong seasonal change. It reads the input ```regional_timeseries_final.csv``` file and then calculates the monthly climatology (the average value for each month across all years) and subtracts it from the corresponding observations. The purpose is to remove the seasonal cycle, ensuring the data relects unpredictable anomalies, and isolates non-seasonal physical teleconnections. 
 
 3.3.2. Handling Missing Values: <br>
+
 The original csv files has a lot of missing values. This step uses forward-fill ```ffill```followed by backward fill ```bfill```, and then drops any remaining NaN rows. It ensures the resulting time series is complete and continuous for proper time series modeling and analysis. 
 
 3.3.3 Conversion to tigramite dataframe: <br> 
+
 The final cleaned dataframe ```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis. 
 
 **Additional step** : 3.3.4 Handling Time Lag: <br>
 The function ```create_lagged_dataframe()``` handles time lag. It transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
 For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}, t_{1000_Midlat_t-2}, t_{1000_Midlat_t-3}, and t_{1000_Midlat_t-4}
 
-The resulting dataframe is used to train regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output obtained from this step is saved as csv file named ```feature_set.csv``` <br>
+The resulting dataframe is used to train Ridge regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output obtained from this step is saved as csv file named ```feature_set.csv``` <br>
 
 **Step 4:Causal Analysis and Comparison** <br> 
 
@@ -151,8 +159,38 @@ PCMCI+(Partial Conditional Mutual Information & Conditional Independence) is wid
 
 Independence Test: Here, we use CMIknn (Conditional Mutual Information, based on k-nearest neighbours) to capture non-linear relationships. <br>
 
-Output is a list of most statistically significant **pairwise links** (eg. t_1000 ENSO at (t-3) -> t_pE Africa). This link forms the input for the baseline model in the final comparison. 
+Output is a list of most statistically significant (P-value > alpha) **pairwise links** (eg. t_1000 ENSO at (t-3) -> t_pE Africa). These discovered links are used as the input for the baseline model in the final comparison. 
 
+*4.2 Hypergraph Discovery* <br>
+```
+src/hypergraph_discovery.py
+```
+
+Implements the hypergraph causal discovery method and contains the logic to compare against the baseline
+
+4.2.1 Conditional Mutual Information : ```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(Xs;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables
+. Uses ridge regression to predict X from Z (and Y from Z)
+. Calculates residuals resx and resy
+. Final CMI is approximated by computing unconditional mutual information between residuals I(resx; resy)
+
+**Significance:**  Higher CMI values indicates a stronger dependency between the set X and the target Y
+
+4.2.2 Independence Test : ```test_independence(X, Y, Z)``` determines if the observed CMI value is significantly significant. 
+. Uses Permutation test(n permutations) to generate a null distribution of CMI values 
+. By comparing the observed CMI to the null-distribution, a p-value is generated. **If is below the alpha value(significance level), the hyperlink is considered     significant**
+
+4.2.3 Search for hyperedges: Function ```discover_hypergraph()```
+. Uses ```itertools.combinations``` to generate all possible set of drivers(Xs) upto max hyperedge size(I defined it to make it simpler)
+. For each set, it executes ```test_independence()``` function, conditioning on all other variables Z
+. Records all set Xs that are sigificant as the discovered hyperedges
+
+*4.3 Performance Comparison* <br>
+
+The pairwise links obtained from baseline model (PCMCI+) are used to identify the single best pairwise driver for the target variable, based on lowest p-value and highest CMI. Next, a ridge regression model is trained on this driver, and R2 value(r2_pair) is recorded as performance baseline. <br>
+
+Likwise, for hyperedge discovered, regression model is trained using all the features within this best hyperedge and r2_hyper value is recorded. 
+
+The claim is made by reporting the relative R2 improvement. The result quantitavely demonstrates that the set-wise interactions(hyperedges) significantly improve the predictive power over the strongest single-link baseline. 
 
 
 
