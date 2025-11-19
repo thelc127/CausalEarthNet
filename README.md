@@ -78,9 +78,12 @@ A. Defining Regional Proxies and Levels <br>
 | E_Africa    | -10 to 10    | 30 to 50      | Total Precipitation (tp) | Surface | tp E_Africa       |
 
 References: 
-https://www.ncei.noaa.gov/access/monitoring/enso/sst
-https://www.ncei.noaa.gov/access/monitoring/ao/
-https://www.cpc.ncep.noaa.gov/products/CDB/Extratropics/fige7.shtml
-https://charlie.weathertogether.net/2012/09/el-ninosouthern-oscillation-enso-for/
-https://pure.iiasa.ac.at/id/eprint/15033/1/Moon%20J.%20et%20al_SJFS_NO6.pdf
-https://www.aoml.noaa.gov/phod/docs/lopez_kirtman_climate_dynamics_2018.pdf
+https://www.ncei.noaa.gov/access/monitoring/enso/sst <br>
+https://www.ncei.noaa.gov/access/monitoring/ao/ <br>
+https://www.cpc.ncep.noaa.gov/products/CDB/Extratropics/fige7.shtml <br>
+https://charlie.weathertogether.net/2012/09/el-ninosouthern-oscillation-enso-for/ <br>
+https://pure.iiasa.ac.at/id/eprint/15033/1/Moon%20J.%20et%20al_SJFS_NO6.pdf <br>
+https://www.aoml.noaa.gov/phod/docs/lopez_kirtman_climate_dynamics_2018.pdf <br>
+
+
+
