@@ -1,6 +1,7 @@
 # CausalEarthNet
 Learning the set-wise causal structure of the Earth system using hypergraphs that outperforms pairwise models in identifying climate tipping points and enabling transportable counterfactual forecasts
 
+## Setup and Dependencies 
 **Step 1: Prerequisities and Required libraries** <br>
 Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
 ``` 
@@ -48,5 +49,28 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    target = "<TARGET-FILE>"
    client.retrieve(dataset, request, target)
    ```
+## Analysis Pipeline
+**Step 1: Data Download and Preprocessing**
+This stage generates the essential input file, ```regional_timeseries_final.csv```
+
+***1.1.Download raw ERA5 data***
+The script below downloads 20 years (2000-2019) of monthly mean ERA5 data for the variables and pressure levels needed for our regional proxies.
+```python data/download_era5.py
+   # Downloads 'era5_surface_monthly.nc' and 'era5_pressure_monthly.nc' ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
    
