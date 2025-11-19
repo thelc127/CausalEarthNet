@@ -176,22 +176,13 @@ Implements the hypergraph causal discovery method
 
 4.2.1 Conditional Mutual Information : ```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(X_s;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables <br>
 
-. Uses ridge regression to predict X from Z (and Y from Z) <br>
-. Calculates residuals res_x and res_y <br>
-. Final CMI is approximated by computing unconditional mutual information between residuals I(res_x; res_y) <br>
-
 **Significance:**  Higher CMI values indicates a stronger dependency between the set X and the target Y
 
 4.2.2 Independence Test : ```test_independence(X, Y, Z)``` determines if the observed CMI value is significantly significant. <br>
+ **If is below the alpha value(significance level), the hyperlink is considered significant** <br>
 
-. Uses Permutation test(n permutations) to generate a null distribution of CMI values <br>
-. By comparing the observed CMI to the null-distribution, a p-value is generated. **If is below the alpha value(significance level), the hyperlink is considered significant** <br>
-
-4.2.3 Search for hyperedges: Function ```discover_hypergraph()```  <br>
-
-. Uses ```itertools.combinations``` to generate all possible set of drivers(Xs) upto max hyperedge size(I defined it to make it simpler) <br>
-. For each set, it executes ```test_independence()``` function, conditioning on all other variables Z  <br>
-. Records all set Xs that are sigificant as the discovered hyperedges  <br>
+4.2.3 Search for hyperedges: Function ```discover_hypergraph()``` <br>
+Records all set Xs that are sigificant as the discovered hyperedges  <br>
 
 *4.3 Performance Comparison* <br>
 
