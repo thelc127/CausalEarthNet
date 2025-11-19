@@ -80,7 +80,11 @@ python data/download_era5.py
 ```
 ***3.2 Aggregate Regional Time Series***
 
-This script takes the raw, multi-dimensional NetCDF files, merges them ```(xr.merge)``` and process them into the clean, univariate regional time series by performing vertical level selection (e.g., z500​) and spatial averaging over defined regions (e.g., ENSO, Arctic, E_Africa).
+This script loads the raw, multi-dimensional NetCDF files, for example:
+```
+ds1 = xr.open_dataset('era5_pressure_monthly.nc', engine='netcdf4')
+ ```
+merges them ```(xr.merge)``` and process them into the clean, univariate regional time series by performing vertical level selection (e.g., z500​) and spatial averaging over defined regions (e.g., ENSO, Arctic, E_Africa).
 ```
 python data/aggregate_data.py
 # Generates 'regional_timeseries_final.csv'
@@ -96,7 +100,7 @@ python data/aggregate_data.py
 | E_Africa    | -10 to 10    | 30 to 50      | Specific Humidity (q) | 850 hPa     | q850 E_Africa      |
 | E_Africa    | -10 to 10    | 30 to 50      | Total Precipitation (tp) | Surface | tp E_Africa       |
 
-References: 
+References: <br>
 https://www.ncei.noaa.gov/access/monitoring/enso/sst <br>
 https://www.ncei.noaa.gov/access/monitoring/ao/ <br>
 https://www.cpc.ncep.noaa.gov/products/CDB/Extratropics/fige7.shtml <br>
@@ -149,7 +153,7 @@ The resulting dataframe is used to train Ridge regression models, and used as in
 
 **Step 4:Causal Analysis and Comparison** <br> 
 
-This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive powe (R^2) <br>
+This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive power (R^2) <br>
 
 *4.1 PCMCI+ Baseline Comparison* <br> 
 ```src/pcmciplus_baseline.py``` 
