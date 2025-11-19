@@ -18,9 +18,6 @@ CausalEarthNet
 │   └── baseline.py
 └── main.py
 ```
-```
-
-
 ## Setup and Dependencies 
 **Step 1: Prerequisities and Required libraries** <br>
 Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
