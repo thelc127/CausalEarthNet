@@ -102,13 +102,16 @@ This step let us summarize big climate datasets into interpretable signals for a
 
 All resulting univariate time-series data are concatenated into a single pandas DataFrame, indexed by time, and saved as, ```regional_timeseries_final.csv```, which is then ready for the next step. 
 
-**Step 4:Causal Analysis and Comparison **
-This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive powe (R^2)
+**Step 4:Causal Analysis and Comparison**
+This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive powe (R^2) <br>
 
-*4.1 PCMCI+ Baseline Comparison*
-The ```src/pcmciplus_baseline.py``` script established the baseline model. 
+4.1 PCMCI+ Baseline Comparison <br>
+The ```src/pcmciplus_baseline.py``` script established the baseline model. <br>
+
 PCMCI+(Partial Conditional Mutual Information and Conditional Independence) is widely used in climate science to discover lagged causal links between individual time series. 
-Independence Test: Here, we use CMIknn (Conditional Mutual Information, based on k-nearest neighbours) to capture non-linear relationships
+
+Independence Test: Here, we use CMIknn (Conditional Mutual Information, based on k-nearest neighbours) to capture non-linear relationships.
+
 Output is a list of most statistically significant **pairwise links** (eg. t_1000 ENSO at (t-3) -> t_pE Africa). This link forms the input for the baseline model in the final comparison. 
 
 
