@@ -6,8 +6,8 @@ Learning the set-wise causal structure of the Earth system using hypergraphs tha
 CausalEarthNet
 ├── data
 │   ├── download_era5.py
-│   ├── data_processor.py
-│   ├── aggregate_data.py
+│   ├── preprocess.py
+│   ├── aggregate.py
 │   └── era5_pressure_monthly.nc
 │   └── era5_surface_monthly.nc
 │   └── feature_set.csv
