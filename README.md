@@ -1,12 +1,29 @@
 # CausalEarthNet
 Learning the set-wise causal structure of the Earth system using hypergraphs that outperforms pairwise models in identifying climate tipping points and enabling transportable counterfactual forecasts
 
-**Step 1: Prerequisities and Required libraries**
-Before running the data acquisition step, you must set up the necessary environment and external API access. All requirements are listed in requirements.txt file <br> 
+**Step 1: Prerequisities and Required libraries** <br>
+Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
 ``` 
 pip install -r requirements.txt
 ```
+or copy paste below:
+```
+# Core Data Handling and Scientific Computing
+pandas
+numpy
+xarray
+matplotlib
 
+# Causal Inference and Modeling
+tigramite
+scikit-learn
+
+# Data Acquisition and I/O Backends (Crucial for ERA5 formats)
+cdsapi
+cfgrib
+netcdf4
+h5netcdf
+```
 **Step 2: Data Acquisition** <br>
 To access the data from Climate Data Store(CDS), follow the steps below: 
 
