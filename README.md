@@ -1,13 +1,13 @@
 # CausalEarthNet
 Learning the set-wise causal structure of the Earth system using hypergraphs that outperforms pairwise models in identifying climate tipping points and enabling transportable counterfactual forecasts
 
-Step 1: Data Acquisition
+***Step 1: Data Acquisition*** <br>
 To access the data from Climate Data Store(CDS), follow the steps below: 
 
-1. Setup the CDS API key
+1. Setup the CDS API key <br>
    Create or register an account at https://cds.climate.copernicus.eu
    
-2. Install the CDS API 
+2. Install the CDS API <br>
       The CDS API client is a Python based library. It provides support for Python 3.
 
    ```
