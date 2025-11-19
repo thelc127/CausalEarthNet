@@ -109,20 +109,15 @@ https://pure.iiasa.ac.at/id/eprint/15033/1/Moon%20J.%20et%20al_SJFS_NO6.pdf <br>
 https://www.aoml.noaa.gov/phod/docs/lopez_kirtman_climate_dynamics_2018.pdf <br>
 
 3.2.2. Aggregation Step <br>
-This step let us summarize big climate datasets into interpretable signals for analysis, like climate indices or teleconnections proxies. 
+Summarize multi-dimensional climate datasets into interpretable (uni-dimensional)signals for analysis, like climate indices or teleconnections proxies. 
 
    *A. Vertical Selection*: <br> 
-   
-   It means picking a certain “height” in the atmosphere. (or a specific pressure level, eg. 1000hpa or 500 hpa). Many climate variables like    (temperature, wind etc) and teleconnection patterns are best captured/represented at certain heights. For example, 1000 hPa for near-surface conditions, 500 hPa for    large-scale waves, and 850 hPa for humidity-related data. Here, we select the data at the height (pressure level) of interest. <br>
-   
    Example: <br>
    ``` data = data.sel(pressure_level = 500, method='nearest') ``` <br>
    
    This isolates the signal at the layer most relevant to the physical process. This is not needed for surface-only fields (eg. precipitation) 
    
    *B. Spatial Aggregation*:<br>
-   
-   It means averaging across a selected region of latitude and longitude. We need spatial aggregation whenever we want a regional indicator      (eg. average rainfall across all East Africa) rather than gridpoint data. 
    
    The code calculates the mean value across all latitude and longitude points within the defined box. 
    ```(.mean(dim = [“latitude”, “longitude”]))```
@@ -131,25 +126,25 @@ All resulting univariate time-series data are concatenated into a single pandas 
 
 *3.3 Feature Engineering* <br>
 
-This step transform the aggregated climate time series data ```(regional_timeseries_final.csv)``` into the standardized formats required for your causal inference and predictive modeling steps. <br> 
+Transforms the aggregated climate time series data ```(regional_timeseries_final.csv)``` into the standardized formats required for your causal inference and predictive modeling steps. <br> 
 
 3.3.1 Anomaly Detection: <br>
 
-The function ```load_clean_data()``` produces a clean, stationary time series of anamoloies by removing the strong seasonal change. It reads the input ```regional_timeseries_final.csv``` file and then calculates the monthly climatology (the average value for each month across all years) and subtracts it from the corresponding observations. The purpose is to remove the seasonal cycle, ensuring the data relects unpredictable anomalies, and isolates non-seasonal physical teleconnections. 
+```load_clean_data()``` : outputs a clean, stationary time series of anamoloies by removing the strong seasonal change, ensures the data relects unpredictable anomalies, and isolates non-seasonal physical teleconnections. 
 
 3.3.2. Handling Missing Values: <br>
-
-The original csv files has a lot of missing values. This step uses forward-fill ```ffill```followed by backward fill ```bfill```, and then drops any remaining NaN rows. It ensures the resulting time series is complete and continuous for proper time series modeling and analysis. 
+Original csv files has a lot of missing values. Uses forward-fill ```ffill``` and backward fill ```bfill```, and then drops remaining NaN rows. <br> 
+Ensures the resulting time series is complete and continuous
 
 3.3.3 Conversion to tigramite dataframe: <br> 
 
-The final cleaned dataframe ```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis. 
+```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis
 
 **Additional step** : 3.3.4 Handling Time Lag: <br>
-The function ```create_lagged_dataframe()``` handles time lag. It transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
+```create_lagged_dataframe()``` transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
 For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}, t_{1000_Midlat_t-2}, t_{1000_Midlat_t-3}, and t_{1000_Midlat_t-4}
 
-The resulting dataframe is used to train Ridge regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output obtained from this step is saved as csv file named ```feature_set.csv``` <br>
+The resulting dataframe is used to train Ridge regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output: ```feature_set.csv``` <br>
 
 **Step 4:Causal Analysis and Comparison** <br> 
 
@@ -159,18 +154,17 @@ This step uses the aggregated time series data to perform the two analyses: 1) t
 ```src/pcmciplus_baseline.py``` 
 has the baseline model. <br>
 
-PCMCI+(Partial Conditional Mutual Information & Conditional Independence) is widely used in climate science to discover lagged causal links between individual time series. <br>
+PCMCI+(Partial Conditional Mutual Information & Conditional Independence) <br>
 
-Independence Test: Here, we use CMIknn (Conditional Mutual Information, based on k-nearest neighbours) to capture non-linear relationships. <br>
+Independence Test: CMIknn (Conditional Mutual Information, based on k-nearest neighbours) to capture non-linear relationships. <br>
 
-Output is a list of most statistically significant (P-value > alpha) **pairwise links** (eg. t_1000 ENSO at (t-3) -> t_pE Africa). These discovered links are used as the input for the baseline model in the final comparison. 
+Output: List of most statistically significant (P-value > alpha) **pairwise links** (eg. t_1000 ENSO at (t-3) -> t_pE Africa). Used as input for the baseline model in the final comparison. 
 
 *4.2 Hypergraph Discovery* <br>
 ```
 src/hypergraph_discovery.py
 ```
-
-Implements the hypergraph causal discovery method and contains the logic to compare against the baseline
+Implements the hypergraph causal discovery method
 
 4.2.1 Conditional Mutual Information : ```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(Xs;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables
 . Uses ridge regression to predict X from Z (and Y from Z)
