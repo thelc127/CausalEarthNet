@@ -21,7 +21,7 @@ CausalEarthNet
 
 ```
 ## Setup and Dependencies 
-**Step 1: Prerequisities and Required libraries** <br>
+**Step 1 : Prerequisities and Required libraries** <br>
 Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
 ``` 
 pip install -r requirements.txt
@@ -69,7 +69,7 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    client.retrieve(dataset, request, target)
    ```
 ## Analysis Pipeline
-**Step 3: Data Download and Preprocessing**
+**Step 3 : Data Download and Preprocessing**
 This stage generates the essential input file, ```regional_timeseries_final.csv```
 
 ***3.1.Download raw ERA5 data*** <br>
@@ -140,13 +140,13 @@ Ensures the resulting time series is complete and continuous
 
 ```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis
 
-**Additional step** : 3.3.4 Handling Time Lag: <br>
+: 3.3.4 Handling Time Lag: **Additional step**  <br>
 ```create_lagged_dataframe()``` transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
 For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}, t_{1000_Midlat_t-2}, t_{1000_Midlat_t-3}, and t_{1000_Midlat_t-4}
 
 The resulting dataframe is used to train Ridge regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output: ```feature_set.csv``` <br>
 
-**Step 4:Causal Analysis and Comparison** <br> 
+**Step 4 : Causal Analysis and Comparison** <br> 
 
 This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive power (R^2) <br>
 
