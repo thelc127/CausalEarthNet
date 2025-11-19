@@ -9,9 +9,21 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    
 2. Install the CDS API <br>
       The CDS API client is a Python based library. It provides support for Python 3.
-
    ```
    pip install cdsapi
     ```
-3. 
+3. Use the CDS API client for data access <br> 
+   Once the CDS API client is installed, it can be used to request data from the datasets listed in the CDS, ADS, ECDS, XDS and CEMS Early Warning DS catalogues. The bottom of each dataset download form has "Show API    request code" button to display a Python code snippet that can be used to run the manually built request. 
+   For example: 
+   ``` 
+   import cdsapi
+   client = cdsapi.Client()
+   dataset = "<DATASET-SHORT-NAME>"
+   request = {
+       <SELECTION-REQUEST>
+   }
+   target = "<TARGET-FILE>"
+   client.retrieve(dataset, request, target)
+   ```
+
    
