@@ -103,7 +103,7 @@ This step let us summarize big climate datasets into interpretable signals for a
 All resulting univariate time-series data are concatenated into a single pandas DataFrame, indexed by time, and saved as, ```regional_timeseries_final.csv```, which is then ready for the next step. 
 
 *3.3 Feature Engineering* <br>
-This step transform the aggregated climate time series data ```(regional_timeseries_final.csv)``` into the standardized formats required for your causal inference and predictive modeling steps. <br>
+This step transform the aggregated climate time series data ```(regional_timeseries_final.csv)``` into the standardized formats required for your causal inference and predictive modeling steps. <br> 
 
 3.3.1 Anomaly Detection: <br>
 The function ```load_clean_data()``` produces a clean, stationary time series of anamoloies by removing the strong seasonal change. It reads the input ```regional_timeseries_final.csv``` file and then calculates the monthly climatology (the average value for each month across all years) and subtracts it from the corresponding observations. The purpose is to remove the seasonal cycle, ensuring the data relects unpredictable anomalies, and isolates non-seasonal physical teleconnections. 
@@ -114,7 +114,14 @@ The original csv files has a lot of missing values. This step uses forward-fill 
 3.3.3 Conversion to tigramite dataframe: <br> 
 The final cleaned dataframe ```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis. 
 
+**Additional step** : 3.3.4 Handling Time Lag: <br>
+The function ```creat_lagged_dataframe()``` handles time lag. It transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
+For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}, t_{1000_Midlat_t-2}, t_{1000_Midlat_t-3}, and t_{1000_Midlat_t-4}
+
+The resulting dataframe is used to train regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**) <br>
+
 **Step 4:Causal Analysis and Comparison** <br> 
+
 This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive powe (R^2) <br>
 
 *4.1 PCMCI+ Baseline Comparison* <br> 
