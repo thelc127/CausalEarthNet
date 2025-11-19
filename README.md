@@ -50,16 +50,16 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    client.retrieve(dataset, request, target)
    ```
 ## Analysis Pipeline
-**Step 1: Data Download and Preprocessing**
+**Step 3: Data Download and Preprocessing**
 This stage generates the essential input file, ```regional_timeseries_final.csv```
 
-***1.1.Download raw ERA5 data*** <br>
+***3.1.Download raw ERA5 data*** <br>
 The script below downloads 20 years (2000-2019) of monthly mean ERA5 data for the variables and pressure levels needed for our regional proxies.
 ```
 python data/download_era5.py 
 # Downloads 'era5_surface_monthly.nc' and 'era5_pressure_monthly.nc' 
 ```
-***1.2 Aggregate Regional Time Series***
+***3.2 Aggregate Regional Time Series***
 
 This script takes the raw, multi-dimensional NetCDF files, merges them ```(xr.merge)``` and process them into the clean, univariate regional time series by performing vertical level selection (e.g., z500​) and spatial averaging over defined regions (e.g., ENSO, Arctic, E_Africa).
 ```
@@ -97,6 +97,6 @@ This isolates the signal at the layer most relevant to the physical process. Thi
 The code calculates the mean value across all latitude and longitude points within the defined box. 
 ```(.mean(dim = [“latitude”, “longitude”]))```
 
-The resulting univariate time-series data are saved into clean standarized form, ```regional_timeseries_final.csv```. 
+All resulting univariate time-series data are concatenated into a single pandas DataFrame, indexed by time, and saved as, ```regional_timeseries_final.csv```, which is then ready for the next step. 
 
 
