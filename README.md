@@ -21,7 +21,9 @@ CausalEarthNet
 
 ```
 ## Setup and Dependencies 
+
 **Step 1 : Prerequisities and Required libraries** <br>
+
 Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
 ``` 
 pip install -r requirements.txt
@@ -45,6 +47,7 @@ netcdf4
 h5netcdf
 ```
 **Step 2: Data Acquisition** <br>
+
 To access the data from Climate Data Store(CDS), follow the steps below: 
 
 1. Setup the CDS API key <br>
@@ -69,10 +72,13 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    client.retrieve(dataset, request, target)
    ```
 ## Analysis Pipeline
+
 **Step 3 : Data Download and Preprocessing**
+
 This stage generates the essential input file, ```regional_timeseries_final.csv```
 
 ***3.1.Download raw ERA5 data*** <br>
+
 The script below downloads 20 years (2000-2019) of monthly mean ERA5 data for the variables and pressure levels needed for our regional proxies.
 ```
 python data/download_era5.py 
@@ -140,7 +146,8 @@ Ensures the resulting time series is complete and continuous
 
 ```df_anomaly_clean``` is converted into a tigramite dataframe to prepare it specifically for baseline analysis
 
-: 3.3.4 Handling Time Lag: **Additional step**  <br>
+3.3.4 Handling Time Lag: **Additional step**  <br>
+
 ```create_lagged_dataframe()``` transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
 For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}, t_{1000_Midlat_t-2}, t_{1000_Midlat_t-3}, and t_{1000_Midlat_t-4}
 
@@ -151,6 +158,7 @@ The resulting dataframe is used to train Ridge regression models, and used as in
 This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive power (R^2) <br>
 
 *4.1 PCMCI+ Baseline Comparison* <br> 
+
 ```src/pcmciplus_baseline.py``` 
 has the baseline model. <br>
 
@@ -167,6 +175,7 @@ src/hypergraph_discovery.py
 Implements the hypergraph causal discovery method
 
 4.2.1 Conditional Mutual Information : ```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(Xs;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables
+
 . Uses ridge regression to predict X from Z (and Y from Z)
 . Calculates residuals resx and resy
 . Final CMI is approximated by computing unconditional mutual information between residuals I(resx; resy)
@@ -174,10 +183,12 @@ Implements the hypergraph causal discovery method
 **Significance:**  Higher CMI values indicates a stronger dependency between the set X and the target Y
 
 4.2.2 Independence Test : ```test_independence(X, Y, Z)``` determines if the observed CMI value is significantly significant. 
+
 . Uses Permutation test(n permutations) to generate a null distribution of CMI values 
 . By comparing the observed CMI to the null-distribution, a p-value is generated. **If is below the alpha value(significance level), the hyperlink is considered     significant**
 
 4.2.3 Search for hyperedges: Function ```discover_hypergraph()```
+
 . Uses ```itertools.combinations``` to generate all possible set of drivers(Xs) upto max hyperedge size(I defined it to make it simpler)
 . For each set, it executes ```test_independence()``` function, conditioning on all other variables Z
 . Records all set Xs that are sigificant as the discovered hyperedges
