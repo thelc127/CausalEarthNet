@@ -8,8 +8,6 @@ CausalEarthNet
 │   ├── download_era5.py
 │   ├── preprocess.py
 │   ├── aggregate.py
-│   └── era5_pressure_monthly.nc
-│   └── era5_surface_monthly.nc
 │   └── feature_set.csv
 │   └── regional_timeseries_final.csv
 ├── src
