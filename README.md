@@ -20,7 +20,7 @@ CausalEarthNet
 └── requirements.txt
 
 ```
-#### Setup and Dependencies 
+### Setup and Dependencies 
 
 ## Step 1 : Prerequisities and Required libraries <br>
 
