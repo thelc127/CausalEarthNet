@@ -20,9 +20,9 @@ CausalEarthNet
 └── requirements.txt
 
 ```
-## Setup and Dependencies 
+#### Setup and Dependencies 
 
-**Step 1 : Prerequisities and Required libraries** <br>
+## Step 1 : Prerequisities and Required libraries <br>
 
 Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
 ``` 
@@ -71,9 +71,9 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    target = "<TARGET-FILE>"
    client.retrieve(dataset, request, target)
    ```
-## Analysis Pipeline
+#### Analysis Pipeline
 
-**Step 3 : Data Download and Preprocessing**
+## Step 3 : Data Download and Preprocessing
 
 This stage generates the essential input file, ```regional_timeseries_final.csv```
 
@@ -153,11 +153,11 @@ For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}
 
 The resulting dataframe is used to train Ridge regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output: ```feature_set.csv``` <br>
 
-**Step 4 : Causal Analysis and Comparison** <br> 
+## Step 4 : Causal Analysis and Comparison <br> 
 
 This step uses the aggregated time series data to perform the two analyses: 1) the PCMCI+ baseline 2) Hypergraph method. The goal is to compare their predictive power (R^2) <br>
 
-*4.1 PCMCI+ Baseline Comparison* <br> 
+**4.1 PCMCI+ Baseline Comparison** <br> 
 
 ```src/pcmciplus_baseline.py``` 
 has the baseline model. <br>
@@ -168,7 +168,7 @@ Independence Test: CMIknn (Conditional Mutual Information, based on k-nearest ne
 
 Output: List of most statistically significant (P-value > alpha) **pairwise links** (eg. t_1000 ENSO at (t-3) -> t_pE Africa). Used as input for the baseline model in the final comparison. 
 
-*4.2 Hypergraph Discovery* <br>
+**4.2 Hypergraph Discovery** <br>
 ```
 src/hypergraph_discovery.py
 ```
@@ -184,7 +184,7 @@ Implements the hypergraph causal discovery method
 4.2.3 Search for hyperedges: Function ```discover_hypergraph()``` <br>
 Records all set Xs that are sigificant as the discovered hyperedges  <br>
 
-*4.3 Performance Comparison* <br>
+**4.3 Performance Comparison** <br>
 
 The pairwise links obtained from baseline model (PCMCI+) are used to identify the single best pairwise driver for the target variable, based on lowest p-value and highest CMI. Next, a ridge regression model is trained on this driver, and R2 value(r2_pair) is recorded as performance baseline. <br>
 
