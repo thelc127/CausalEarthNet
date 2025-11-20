@@ -115,9 +115,11 @@ https://pure.iiasa.ac.at/id/eprint/15033/1/Moon%20J.%20et%20al_SJFS_NO6.pdf <br>
 https://www.aoml.noaa.gov/phod/docs/lopez_kirtman_climate_dynamics_2018.pdf <br>
 
 3.2.2. Aggregation Step <br>
+
 Summarize multi-dimensional climate datasets into interpretable (uni-dimensional)signals for analysis, like climate indices or teleconnections proxies. 
 
    *A. Vertical Selection*: <br> 
+   
    Example: <br>
    ``` data = data.sel(pressure_level = 500, method='nearest') ``` <br>
    
@@ -141,6 +143,7 @@ Transforms the aggregated climate time series data ```(regional_timeseries_final
 3.3.2. Handling Missing Values: <br>
 
 Original csv files has a lot of missing values. Uses forward-fill ```ffill``` and backward fill ```bfill```, and then drops remaining NaN rows. <br> 
+
 Ensures the resulting time series is complete and continuous
 
 3.3.3 Conversion to tigramite dataframe: <br> 
@@ -150,6 +153,7 @@ Ensures the resulting time series is complete and continuous
 3.3.4 Handling Time Lag: **Additional step**  <br>
 
 ```create_lagged_dataframe()``` transforms the timeseries data to a feature matrix, and explicitly creates separate columns for every lagged time step up to ```max_lag``` values. 
+
 For example: If max_lag = 4, for t_{1000_Midlat}, it creates t_{1000_Midlat_t-1}, t_{1000_Midlat_t-2}, t_{1000_Midlat_t-3}, and t_{1000_Midlat_t-4}
 
 The resulting dataframe is used to train Ridge regression models, and used as input features (**X** matrix) for target variable at time t (**Y_t**). Output: ```feature_set.csv``` <br>
@@ -184,11 +188,13 @@ Implements the hypergraph causal discovery method
 4.2.2 Independence Test : <br>
 
 ```test_independence(X, Y, Z)``` determines if the observed CMI value is significantly significant. <br>
+
  **If is below the alpha value(significance level), the hyperlink is considered significant** <br>
 
 4.2.3 Search for hyperedges: <br>
 
 Function ```discover_hypergraph()``` <br>
+
 Records all set Xs that are sigificant as the discovered hyperedges  <br>
 
 **4.3 Performance Comparison** <br>
