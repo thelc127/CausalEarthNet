@@ -20,9 +20,9 @@ CausalEarthNet
 └── requirements.txt
 
 ```
-### Setup and Dependencies 
+## Setup and Dependencies 
 
-## Step 1 : Prerequisities and Required libraries <br>
+## Step 1 : Prerequisities and Required Libraries <br>
 
 Before running the data acquisition step, you must set up the necessary environment. All requirements are listed in requirements.txt file <br> 
 ``` 
@@ -71,7 +71,7 @@ To access the data from Climate Data Store(CDS), follow the steps below:
    target = "<TARGET-FILE>"
    client.retrieve(dataset, request, target)
    ```
-#### Analysis Pipeline
+## Analysis Pipeline
 
 ## Step 3 : Data Download and Preprocessing
 
@@ -139,6 +139,7 @@ Transforms the aggregated climate time series data ```(regional_timeseries_final
 ```load_clean_data()``` : outputs a clean, stationary time series of anamoloies by removing the strong seasonal change, ensures the data relects unpredictable anomalies, and isolates non-seasonal physical teleconnections. 
 
 3.3.2. Handling Missing Values: <br>
+
 Original csv files has a lot of missing values. Uses forward-fill ```ffill``` and backward fill ```bfill```, and then drops remaining NaN rows. <br> 
 Ensures the resulting time series is complete and continuous
 
@@ -174,14 +175,20 @@ src/hypergraph_discovery.py
 ```
 Implements the hypergraph causal discovery method
 
-4.2.1 Conditional Mutual Information : ```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(X_s;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables <br>
+4.2.1 Conditional Mutual Information : <br>
+
+```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(X_s;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables <br>
 
 **Significance:**  Higher CMI values indicates a stronger dependency between the set X and the target Y
 
-4.2.2 Independence Test : ```test_independence(X, Y, Z)``` determines if the observed CMI value is significantly significant. <br>
+4.2.2 Independence Test : <br>
+
+```test_independence(X, Y, Z)``` determines if the observed CMI value is significantly significant. <br>
  **If is below the alpha value(significance level), the hyperlink is considered significant** <br>
 
-4.2.3 Search for hyperedges: Function ```discover_hypergraph()``` <br>
+4.2.3 Search for hyperedges: <br>
+
+Function ```discover_hypergraph()``` <br>
 Records all set Xs that are sigificant as the discovered hyperedges  <br>
 
 **4.3 Performance Comparison** <br>
