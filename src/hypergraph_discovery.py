@@ -151,7 +151,6 @@ class HypergraphCausalDiscovery:
             X_hyper, Y_norm, test_size=self.test_size, random_state=self.random_state
         )
 
-        # 📢 CRITICAL FIX: Initialize and Fit Scaler on X_train only 📢
         scaler_p = StandardScaler()
         X_train_p_scaled = scaler_p.fit_transform(X_train_p)
         X_test_p_scaled = scaler_p.transform(X_test_p)
