@@ -90,7 +90,7 @@ ds1 = xr.open_dataset('era5_pressure_monthly.nc', engine='netcdf4')
  ```
 merges them ```(xr.merge)``` and process them into the clean, univariate regional time series by performing vertical level selection (e.g., z500​) and spatial averaging over defined regions (e.g., ENSO, Arctic, E_Africa).
 ```
-python data/aggregate_data.py
+python data/aggregate.py
 # Generates 'regional_timeseries_final.csv'
 ```
 
