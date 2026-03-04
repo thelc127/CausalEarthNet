@@ -1,6 +1,7 @@
 # Project Overview
 
-This project develops a hypergraph-based causal discovery approach to detect multi-variable causal interactions in climate systems. Traditional causal discovery methods focus on pairwise relationships. This work extends causal discovery to detect joint drivers using conditional mutual information and permutation testing.
+This project develops a hypergraph-based causal discovery approach to detect multi-variable causal interactions in climate systems. 
+Traditional causal discovery methods focus on pairwise relationships. This work extends causal discovery to detect joint drivers using conditional mutual information and permutation testing.
 
 # Quick Start
 
