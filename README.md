@@ -1,5 +1,14 @@
-# CausalEarthNet
-Learning the set-wise causal structure of the Earth system using hypergraphs that outperforms pairwise models in identifying climate tipping points and enabling transportable counterfactual forecasts
+# Project Overview
+
+This project develops a hypergraph-based causal discovery approach to detect multi-variable causal interactions in climate systems. Traditional causal discovery methods focus on pairwise relationships. This work extends causal discovery to detect joint drivers using conditional mutual information and permutation testing.
+
+# Quick Start
+
+1. Install dependencies
+pip install -r requirements.txt
+
+2. Run the main pipeline
+python main.py
 
 ## Code Structure
 ```
