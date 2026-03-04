@@ -193,7 +193,7 @@ Implements the hypergraph causal discovery method
 
 4.2.1 Conditional Mutual Information : <br>
 
-```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(X_s;Y | Z)**, where Xs is set of lagged dricers, Y is the target variable at the present time t and Z is set of all other system variables <br>
+```conditional_mutual_information(X,Y,Z)``` estimates CMI **(I(X_s;Y | Z)**, where Xs is set of lagged drivers, Y is the target variable at the present time t and Z is set of all other system variables <br>
 
 **Significance:**  Higher CMI values indicates a stronger dependency between the set X and the target Y
 
