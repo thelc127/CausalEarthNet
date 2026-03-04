@@ -6,10 +6,14 @@ Traditional causal discovery methods focus on pairwise relationships. This work 
 # Quick Start
 
 1. Install dependencies
+``` 
 pip install -r requirements.txt
+```
 
 2. Run the main pipeline
+``` 
 python main.py
+```
 
 ## Code Structure
 ```
