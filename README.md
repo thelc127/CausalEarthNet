@@ -15,6 +15,12 @@ pip install -r requirements.txt
 python main.py
 ```
 
+3. Repository Structure
+
+data/       climate datasets and preprocessing scripts
+src/        causal discovery algorithms
+main.py     pipeline entry point
+
 ## Code Structure
 ```
 CausalEarthNet
